@@ -27,6 +27,10 @@ define(function(require, exports, module) {
         this._value       = options.value || '';
         this._type        = options.type || 'text';
         this._name        = options.name || '';
+        this._id          = options.id || '';
+        this._length      = options.length || 0;
+        this._encrypted   = options.encrypted || false;
+        this._autocomplet = options.autocomplet || true;
 
         Surface.apply(this, arguments);
         this.on('click', this.focus.bind(this));
@@ -151,6 +155,16 @@ define(function(require, exports, module) {
         target.value = this._value;
         target.type = this._type;
         target.name = this._name;
+        if (this._id !== '')
+          target.id = this._id;
+        if(this._length > 0) {
+          target.size = this._length;
+          target.maxLength = this._length;
+        }
+        if( ! this._autocomplete )
+          target.autocomplete = "off";
+        if( this._encrypted )
+          target['data-encrypted-name'] = this._name;
     };
 
     module.exports = InputSurface;
